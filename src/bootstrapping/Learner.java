@@ -18,9 +18,13 @@ import weka.core.converters.ArffLoader;
 
 public class Learner {
 
+	/**
+	 * Experiment on balanced data set
+	 * 
+	 * @throws Exception
+	 */
 	public static void balancedSetExp() throws Exception {
-		// int seed = rand(); // the seed for randomizing the data
-		int seed = (int) System.currentTimeMillis();
+		int seed = -1;
 		int[] seeds = { 1, 384, 748, 28, 84, 263, 29, 264, 45789, 67 };
 		int folds = 10; // the number of folds to generate, >=2
 		int numExp = 10;
@@ -69,33 +73,29 @@ public class Learner {
 					// System.out.println(test.numInstances());
 					correct += eval.correct();
 					incorrect += eval.incorrect();
-					// System.out.println(n);
-					// System.out.println(correct);
-					// System.out.println(incorrect);
 				}
 				double precision = correct / (correct + incorrect);
 				System.out.println(String.format("%.3f", precision));
 			}
 			System.out.println(e);
 		}
-		// eval.evaluateModel(classifier, randData);
-		// System.out.println(eval.toClassDetailsString());
-		// System.out.println(eval.toSummaryString());
-		// System.out.println(eval.toMatrixString());
-
-		// Evaluation eval = new Evaluation(randData);
-		// eval.crossValidateModel( classifier, randData, 10, new Random(1));
-		// System.out.println(eval.toClassDetailsString());
-		// System.out.println(eval.toSummaryString());
-		// System.out.println(eval.toMatrixString());
 	}
 
-	// Number of Seeds vs. Accuracy
-	public static void expendingLabeledSetExp(boolean isBootstrapping, boolean isBalanced, int balancedSetSize,
-			int labeledSetSize, int[] numSeed) throws Exception {
+	/**
+	 * Experiment on expanded labeled data set
+	 * 
+	 * @param isBootstrapping
+	 * @param isBalanced
+	 * @param balancedSetSize
+	 * @param labeledSetSize
+	 * @param numSeed
+	 * @throws Exception
+	 */
+	public static void expendingLabeledSetExp(boolean isBootstrapping,
+			boolean isBalanced, int balancedSetSize, int labeledSetSize,
+			int[] numSeed) throws Exception {
 		// Parameters
 		int seed = 7498; // the seed for randomizing the data
-		int folds = 10; // the number of folds to generate, >=2
 		double threshold = 0.95;
 
 		File inputFile;
@@ -111,8 +111,7 @@ public class Learner {
 
 		Instances instanceKnown = new Instances(randData, 0, labeledSetSize);
 		instanceKnown.setClassIndex(instanceKnown.numAttributes() - 1);
-		
-		
+
 		inputFile = new File(
 				"C:\\Users\\Dongye\\Dropbox\\Phenoscape\\JCI\\data\\mutation_train_class1.arff");
 		atf = new ArffLoader();
@@ -302,30 +301,17 @@ public class Learner {
 				"Number of seeds", "Accuracy", xData, yDataList, seriesNames,
 				false, true);
 
-		// myPlt.makePlot2("precision vs recall.png", cls1Rec1Data,
-		// cls1Pre1Data, cls1Rec2Data, cls1Pre2Data,
-		// "Averaged precision vs Averaged recall of class 1",
-		// "Averaged Recall", "Averaged Precision", "classifier 1",
-		// "classifier 2", false, true);
-		// myPlt.makePlot2("precision vs recall.png", cls2Rec1Data,
-		// cls2Pre1Data, cls2Rec2Data, cls2Pre2Data,
-		// "Averaged precision vs Averaged recall of class 2",
-		// "Averaged Recall", "Averaged Precision", "classifier 1",
-		// "classifier 2", false, true);
-
-		// public void makePlot(String name, List<Number> xData1,
-		// List<Number> yData1, List<Number> yData2, String title, String
-		// xTitle, String yTitle,
-		// String seriesName, boolean isFixedRadio, boolean isSave) {
-
 		System.out.println();
 	}
 
-	// Threshold vs. Accuracy
-	public static void exp2() throws Exception {
+	/**
+	 * Experiment of Threshold vs. Accuracy
+	 * 
+	 * @throws Exception
+	 */
+	public static void thresholdVSAccuracyExp() throws Exception {
 		boolean isBootstrapping = true;
 		int seed = 7498; // the seed for randomizing the data
-		int folds = 10; // the number of folds to generate, >=2
 		double threshold = 0.95;
 
 		File inputFile = new File(
@@ -434,7 +420,14 @@ public class Learner {
 		System.out.println();
 	}
 
-	public static void exp3(int size) throws Exception {
+	/**
+	 * Experiment of number of unlabeled instances vs. accuracy
+	 * 
+	 * @param size
+	 * @throws Exception
+	 */
+	public static void numOfUnlabeledInstancesVSAccuracyExp(int size)
+			throws Exception {
 		boolean isBootstrapping = true;
 		int seed = 7498; // the seed for randomizing the data
 		double threshold = 0.95;
@@ -550,7 +543,14 @@ public class Learner {
 		System.out.println();
 	}
 
-	public static void exp4() throws Exception {
+	/**
+	 * Experiment of train a classifier on labeled instances borrowed from
+	 * parent terms and child terms, and test it on original labeled instances
+	 * of the terms in questions
+	 * 
+	 * @throws Exception
+	 */
+	public static void expandedTrainOriginalTestExp() throws Exception {
 		File inputFile;
 		inputFile = new File(
 				"C:\\Users\\Dongye\\Dropbox\\Phenoscape\\JCI\\data\\neighbors1_train.arff");
@@ -587,8 +587,7 @@ public class Learner {
 
 		int sum = test.numInstances();
 		int error = 0;
-		for (int i = 0; i < test.numInstances(); i++)// 测试分类结果
-		{
+		for (int i = 0; i < test.numInstances(); i++) {
 			double predicted = myCls.classifyInstance(test.instance(i));
 			double trueLabel = test.instance(i).classValue();
 			if (predicted != trueLabel) {
@@ -603,6 +602,13 @@ public class Learner {
 
 	}
 
+	/**
+	 * A helper to convert a list of numbers to a string of those numbers
+	 * 
+	 * @param list
+	 * @param fileName
+	 * @throws IOException
+	 */
 	public static void printList(List<Number> list, String fileName)
 			throws IOException {
 		StringBuilder sb = new StringBuilder();
@@ -628,6 +634,12 @@ public class Learner {
 		bw.close();
 	}
 
+	/**
+	 * A helper to computer average of a list of list
+	 * 
+	 * @param allResults
+	 * @return
+	 */
 	public static List<List<Double>> computeAverage(
 			List<List<List<Double>>> allResults) {
 
@@ -665,37 +677,48 @@ public class Learner {
 		}
 	}
 
-	public static void exp5() throws Exception {
-		File inputFile;
-		inputFile = new File(
-				"C:\\Users\\Dongye\\Dropbox\\Phenoscape\\JCI\\data\\mutation_train_class1.arff");
-		ArffLoader atf = new ArffLoader();
-		atf.setFile(inputFile);
-		Instances instanceClass1 = atf.getDataSet();
-		instanceClass1.setClassIndex(instanceClass1.numAttributes() - 1);
+	// public static void exp5() throws Exception {
+	// File inputFile;
+	// inputFile = new File(
+	// "C:\\Users\\Dongye\\Dropbox\\Phenoscape\\JCI\\data\\mutation_train_class1.arff");
+	// ArffLoader atf = new ArffLoader();
+	// atf.setFile(inputFile);
+	// Instances instanceClass1 = atf.getDataSet();
+	// instanceClass1.setClassIndex(instanceClass1.numAttributes() - 1);
+	//
+	// inputFile = new File(
+	// "C:\\Users\\Dongye\\Dropbox\\Phenoscape\\JCI\\data\\mutation_train_class2.arff");
+	// atf.setFile(inputFile);
+	// Instances instanceClass2 = atf.getDataSet();
+	// instanceClass2.setClassIndex(instanceClass2.numAttributes() - 1);
+	//
+	// Instances randData;
+	//
+	// randData = makeBalancedSet(instanceClass1, instanceClass2, 39);
+	// Instances test = new Instances(randData.testCV(3, 1));
+	// Instances train = new Instances(randData.trainCV(3, 1));
+	//
+	// Classifier myCls1 = (Classifier) new NaiveBayes();
+	// myCls1.buildClassifier(train);
+	// Evaluation eval1 = new Evaluation(train);
+	// eval1.evaluateModel(myCls1, test);
+	// Utility myUtility = new Utility();
+	// List<Double> res = myUtility.getStatistics(eval1);
+	// System.out.println(res);
+	// System.out.println();
+	// }
 
-		inputFile = new File(
-				"C:\\Users\\Dongye\\Dropbox\\Phenoscape\\JCI\\data\\mutation_train_class2.arff");
-		atf.setFile(inputFile);
-		Instances instanceClass2 = atf.getDataSet();
-		instanceClass2.setClassIndex(instanceClass2.numAttributes() - 1);
-
-		Instances randData;
-
-		randData = makeBalancedSet(instanceClass1, instanceClass2, 39);
-		Instances test = new Instances(randData.testCV(3, 1));
-		Instances train = new Instances(randData.trainCV(3, 1));
-
-		Classifier myCls1 = (Classifier) new NaiveBayes();
-		myCls1.buildClassifier(train);
-		Evaluation eval1 = new Evaluation(train);
-		eval1.evaluateModel(myCls1, test);
-		Utility myUtility = new Utility();
-		List<Double> res = myUtility.getStatistics(eval1);
-		System.out.println(res);
-		System.out.println();
-	}
-
+	/**
+	 * Make a balanced data set
+	 * 
+	 * @param instanceClass1
+	 *            instances of class 1
+	 * @param instanceClass2
+	 *            instances of class 2
+	 * @param halfSize
+	 * @return a balanced data set contains equal number of instances from class
+	 *         1 and class 2
+	 */
 	public static Instances makeBalancedSet(Instances instanceClass1,
 			Instances instanceClass2, int halfSize) {
 		int seed1 = 7249; // the seed for randomizing the data
@@ -731,6 +754,12 @@ public class Learner {
 		return randData;
 	}
 
+	/**
+	 * Flip the labels of instances (0 to 1, and 1 to 0)
+	 * 
+	 * @param insList
+	 * @return Instances with labeled flipped
+	 */
 	public static Instances flip(Instances insList) {
 		int size = insList.numInstances();
 
@@ -761,18 +790,22 @@ public class Learner {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		boolean exp3 = false;
-		boolean exp4 = false;
-		boolean exp5 = true;
+		boolean expOfExpendingLabeledSetOnUnBalancedSet = false;
+		boolean expOfExpendingLabeledSetOnBalancedSet = false;
+		boolean expOfBalancedSet = true;
+		boolean expOfThresholdVSAccuracy = false;
+		boolean expOfNumOfUnlabeledInstancesVSAccuracy = false;
+		boolean expOfExpandedTrainOriginalTest = false;
 
 		boolean isBootstrapping = true;
 		int labeledSetSize = 400;
 		int[] seeds = new int[] { 5, 10, 16, 20, 25, 40, 50, 80, 100, 200 };
 		// seeds = new int[] { 10};
-		boolean isBalanced = false;
+
 		int balancedSetSize = 30;
 
-		if (exp3) {
+		boolean isBalanced = false;
+		if (expOfExpendingLabeledSetOnUnBalancedSet) {
 			for (int i = 0; i < 2; i++) {
 				isBootstrapping = (i == 1);
 				System.out.println(String.format("Run: %d", i));
@@ -781,7 +814,7 @@ public class Learner {
 			}
 		}
 
-		if (exp4) {
+		if (expOfExpendingLabeledSetOnBalancedSet) {
 			seeds = new int[] { 2, 3, 5, 10, 15, 20, 30 };
 			isBalanced = true;
 			for (int i = 0; i < 2; i++) {
@@ -793,16 +826,21 @@ public class Learner {
 
 		}
 
-		if (exp5) {
+		if (expOfBalancedSet) {
 			balancedSetExp();
 		}
-		// exp2();
-		// exp3(20);
-		// List<Number> a = new ArrayList<Number>();
-		// a.add(1.0);
-		// a.add(2.0);
-		// printList(a, "1.txt");
-		// exp4();
+
+		if (expOfThresholdVSAccuracy) {
+			thresholdVSAccuracyExp();
+		}
+
+		if (expOfNumOfUnlabeledInstancesVSAccuracy) {
+			numOfUnlabeledInstancesVSAccuracyExp(20);
+		}
+
+		if (expOfExpandedTrainOriginalTest) {
+			expandedTrainOriginalTestExp();
+		}
 		// exp5();
 	}
 
