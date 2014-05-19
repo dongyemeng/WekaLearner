@@ -786,6 +786,8 @@ public class Learner {
 	}
 
 	/**
+	 * Experiments. Use the boolean variables to control which to run
+	 * 
 	 * @param args
 	 * @throws Exception
 	 */
