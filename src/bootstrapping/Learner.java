@@ -677,37 +677,6 @@ public class Learner {
 		}
 	}
 
-	// public static void exp5() throws Exception {
-	// File inputFile;
-	// inputFile = new File(
-	// "C:\\Users\\Dongye\\Dropbox\\Phenoscape\\JCI\\data\\mutation_train_class1.arff");
-	// ArffLoader atf = new ArffLoader();
-	// atf.setFile(inputFile);
-	// Instances instanceClass1 = atf.getDataSet();
-	// instanceClass1.setClassIndex(instanceClass1.numAttributes() - 1);
-	//
-	// inputFile = new File(
-	// "C:\\Users\\Dongye\\Dropbox\\Phenoscape\\JCI\\data\\mutation_train_class2.arff");
-	// atf.setFile(inputFile);
-	// Instances instanceClass2 = atf.getDataSet();
-	// instanceClass2.setClassIndex(instanceClass2.numAttributes() - 1);
-	//
-	// Instances randData;
-	//
-	// randData = makeBalancedSet(instanceClass1, instanceClass2, 39);
-	// Instances test = new Instances(randData.testCV(3, 1));
-	// Instances train = new Instances(randData.trainCV(3, 1));
-	//
-	// Classifier myCls1 = (Classifier) new NaiveBayes();
-	// myCls1.buildClassifier(train);
-	// Evaluation eval1 = new Evaluation(train);
-	// eval1.evaluateModel(myCls1, test);
-	// Utility myUtility = new Utility();
-	// List<Double> res = myUtility.getStatistics(eval1);
-	// System.out.println(res);
-	// System.out.println();
-	// }
-
 	/**
 	 * Make a balanced data set
 	 * 
