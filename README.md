@@ -13,4 +13,5 @@ This project includes the following experiments:
 5. Experiment of train a classifier on labeled instances borrowed from parent terms and child terms, and test it on original labeled instances of the terms in questions
 
 How to run:
+
 Run the main method in Learner class. To enable an experiment, set the boolean variable of it be true before running. 
